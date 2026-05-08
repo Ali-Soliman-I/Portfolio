@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali Sulaiman | Full-Stack Developer</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sky: #7DD3FC;
+      --sky-bright: #BAE6FD;
+      --slate: #94A3B8;
+      --slate-dim: #64748B;
+      --white: #F8FAFC;
+      --off: #E2E8F0;
+      --bg: #07090F;
+      --bg2: #0D1117;
+      --border: rgba(125,211,252,0.1);
+      --border2: rgba(125,211,252,0.22);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* --- Navigation --- */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(7,9,15,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 0.5px solid var(--border);
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      color: var(--sky);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--slate); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--sky); }
+
+    /* --- Hero Section --- */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 5%;
+      position: relative;
+    }
+    .hero-label { font-size: 0.75rem; letter-spacing: 0.3em; color: var(--sky); text-transform: uppercase; margin-bottom: 1rem; font-weight: 600; }
+    .hero-title { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-title span { color: var(--sky); }
+    .hero-sub { font-size: 1.1rem; color: var(--slate); max-width: 600px; margin-bottom: 2.5rem; }
+    
+    /* --- About Section --- */
+    .about-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 4rem;
+    }
+
+    /* --- Common Layout --- */
+    .section { padding: 80px 5%; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: 2rem; margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+    .section-title::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+
+    /* --- Projects Grid --- */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .project-card:hover { transform: translateY(-5px); border-color: var(--sky); }
+    .project-img {
+      height: 200px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .project-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+    .project-content h3 { margin-bottom: 0.5rem; color: var(--white); }
+    .project-content p { font-size: 0.9rem; color: var(--slate); margin-bottom: 1.5rem; flex-grow: 1; }
+    
+    /* --- Skills & Certs (Pill Design) --- */
+    .badge-container { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .badge {
+      padding: 0.5rem 1rem;
+      background: rgba(125,211,252,0.05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--sky-bright);
+      transition: 0.2s;
+    }
+    .badge:hover { background: rgba(125,211,252,0.15); border-color: var(--sky); }
+    .badge.cert { border-color: rgba(167,139,250,0.3); color: #c4b5fd; }
+
+    /* --- Buttons --- */
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--sky); color: var(--bg); }
+    .btn-primary:hover { background: var(--sky-bright); }
+    .btn-outline { border: 1px solid var(--border); color: var(--slate); }
+    .btn-outline:hover { border-color: var(--sky); color: var(--sky); }
+
+    /* --- StarkCrosshair Animation (User Favorite) --- */
+    .crosshair-anim { position: relative; width: 60px; height: 60px; }
+    .ch-l { position: absolute; background: var(--sky); box-shadow: 0 0 10px var(--sky); }
+    .ch-h { width: 30px; height: 2px; top: 29px; left: 15px; }
+    .ch-v { width: 2px; height: 30px; top: 15px; left: 29px; }
+
+    /* --- Footer/Contact --- */
+    .contact-section { text-align: center; background: var(--bg2); border-radius: 20px; padding: 4rem 2rem; margin-top: 4rem; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; } /* Simplified for mobile */
+      .hero-title { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="logo">ALI.S</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#certs">Certifications</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <p class="hero-label">Full-Stack Developer & Student</p>
+    <h1 class="hero-title">I'm Ali Sulaiman.<br>I build <span>Digital Solutions.</span></h1>
+    <p class="hero-sub">Computer Science student at MIU specialized in creating high-performance web applications and desktop tools.</p>
+    <div class="btn-group">
+      <a href="mailto:ali2205381@miuegyptedu.eg" class="btn btn-primary">Email Me</a>
+      <a href="#work" class="btn btn-outline">View My Work</a>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-box">
+      <p>I am a passionate Full-Stack Developer dedicated to building fast, precise, and beautiful web experiences. Currently pursuing my degree, I focus on bridging the gap between complex backend logic and intuitive user interfaces. I thrive on solving technical challenges, from gaming overlays to complex management systems.</p>
+    </div>
+
+    <h3>My Technical Stack</h3>
+    <br>
+    <div class="badge-container">
+      <div class="badge">JavaScript</div>
+
+      <div class="badge">Node.js</div>
+      <div class="badge">Python</div>
+      <div class="badge">Electron</div>
+      <div class="badge">HTML5 / CSS3</div>
+      <div class="badge">Git / GitHub</div>
+      <div class="badge">Responsive Design</div>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <h2 class="section-title">Selected Projects</h2>
+    <div class="projects-grid">
+      
+      <div class="project-card">
+        <div class="project-img">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="1.5">
+            <path d="M6 7v10M3 9v6M6 12h12M18 7v10M21 9v6"/>   
+            </svg>
+        </div>
+        <div class="project-content">
+          <h3>Gym Management System</h3>
+          <p>The full system is being built for a real gym in Cairo. This prototype is a simplified preview of the user experience and role system.</p>
+          <div class="badge-container" style="margin-bottom: 1rem;">
+            <span class="badge">HTML</span>
+            <span class="badge">JavaScript</span>
+            <span class="badge">CSS</span>
+            <span class="badge">Node.js</span>
+            <span class="badge">MySQL</span>
+          </div>
+           <a href="https://github.com/Ali-Sulaiman-I/Gym-Prototype" target="_blank" class="btn btn-outline">GitHub Repo →</a>
+            <a href="https://ali-sulaiman-i.github.io/Gym-Prototype/" target="_blank" class="btn btn-outline">Live demo →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <div class="crosshair-anim">
+            <div class="ch-l ch-h"></div>
+            <div class="ch-l ch-v"></div>
+          </div>
+        </div>
+        <div class="project-content">
+          <h3>StarkCrosshair</h3>
+          <p>Desktop overlay for gamers with 6 customizable styles and hotkey support. Runs seamlessly over any application using Electron.</p>
+          <div class="badge-container" style="margin-bottom: 1rem;">
+            <span class="badge">Electron</span>
+            <span class="badge">JavaScript</span>
+             <span class="badge">HTML</span>
+            <span class="badge">CSS</span>
+          </div>
+          <a href="https://github.com/Ali-Sulaiman-I/StarkCrosshair" target="_blank" class="btn btn-outline">GitHub Repo →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="certs">
+    <h2 class="section-title">Certifications</h2>
+    <div class="badge-container">
+  
+      <a href="https://www.credly.com/users/ali-sulaiman.0b673e64" target="_blank" class="badge cert">AWS  Cloud Architecting</a>
+      <a href="https://www.credly.com/users/ali-sulaiman.0b673e64" target="_blank" class="badge cert">Information Technology Fundamentals</a>
+      <a href="https://www.credly.com/users/ali-sulaiman.0b673e64" target="_blank" class="badge cert">Cloud Computing Fundamentals</a>
+      <a href="https://www.credly.com/users/ali-sulaiman.0b673e64" target="_blank" class="badge cert">AI Literacy</a>
+      <a href="https://www.credly.com/users/ali-sulaiman.0b673e64" target="_blank" class="badge cert">Red Hat System Administration</a>
+
+      <a href="https://www.credly.com/users/ali-sulaiman.0b673e64" target="_blank" class="badge cert">View all on Credly ↗</a>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="contact-section">
+      <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Let's build something.</h2>
+      <p style="color: var(--slate); margin-bottom: 2.5rem;">Currently open to internship opportunities and freelance projects.</p>
+      <div class="btn-group" style="justify-content: center;">
+        <a href="mailto:ali2205381@miuegyptedu.eg" class="btn btn-primary">Email Me Directly</a>
+        <a href="https://github.com/Ali-Sulaiman-I" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="https://www.credly.com/users/ali-sulaiman.0b673e64" target="_blank" class="btn btn-outline">Credly</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer style="padding: 4rem 5%; text-align: center; color: var(--slate-dim); font-size: 0.8rem; border-top: 0.5px solid var(--border);">
+  <p>© 2026 Ali Sulaiman. Built with precision.</p>
+</footer>
+
+</body>
+</html>
